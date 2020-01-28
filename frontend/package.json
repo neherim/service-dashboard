@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@blueprintjs/core": "^3.23.1",
     "@emotion/core": "^10.0.22",
     "@emotion/styled": "^10.0.23",
     "@projectstorm/react-diagrams": "^6.0.1-beta.7",

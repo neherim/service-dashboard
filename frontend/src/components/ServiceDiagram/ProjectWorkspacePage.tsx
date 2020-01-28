@@ -4,6 +4,11 @@ import {DiagramCanvasWidget} from "./Diagram/DiagramCanvasWidget";
 import styled from "@emotion/styled";
 import {ProjectSchema} from "./Diagram/schema";
 
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+
+import {Alignment, Button, ButtonGroup, Divider, Navbar, NavbarGroup, NavbarHeading} from "@blueprintjs/core";
+
 interface WorkspaceWidgetProps {
 }
 
@@ -11,14 +16,14 @@ interface WorkspaceWidgetState {
   isInEditMode: boolean;
 }
 
-export class ProjectWorkspacePage extends React.Component<WorkspaceWidgetProps, WorkspaceWidgetState> {
+export class ProjectWorkspacePage extends React.Component <WorkspaceWidgetProps, WorkspaceWidgetState> {
   diagram = new ProjectDiagram();
 
   constructor(props: WorkspaceWidgetProps) {
     super(props);
     this.state = {
       isInEditMode: false
-    }
+    };
   }
 
   private handleSerialize() {
@@ -29,14 +34,14 @@ export class ProjectWorkspacePage extends React.Component<WorkspaceWidgetProps, 
     this.diagram.startEdit();
     this.setState({
       isInEditMode: true
-    })
+    });
   }
 
   private handleSave() {
     this.diagram.saveChanges();
     this.setState({
       isInEditMode: false
-    })
+    });
   }
 
   private handleSchema1() {
@@ -49,32 +54,38 @@ export class ProjectWorkspacePage extends React.Component<WorkspaceWidgetProps, 
 
   render() {
     return (
-      <Container>
-        <div>
-          <button onClick={() => this.diagram.zoomIn()}>zoom in</button>
-          <button onClick={() => this.diagram.zoomOut()}>zoom out</button>
-          <button onClick={() => this.diagram.zoomToFit()}>zoom to fit</button>
-          <button onClick={() => this.handleSerialize()}>serialize</button>
-          <button onClick={() => this.handleEdit()}>edit</button>
-          <button onClick={() => this.handleSave()}>save</button>
-          <button onClick={() => this.handleSchema1()}>schema1</button>
-          <button onClick={() => this.handleSchema2()}>toSchema</button>
-        </div>
-        <DiagramCanvasWidget diagram={this.diagram} showGrid={this.state.isInEditMode}/>
+      <Container className="bp3-dark">
+        <Navbar>
+          <NavbarGroup align={Alignment.LEFT}>
+            <ButtonGroup minimal={true}>
+              <NavbarHeading>Service Diagram</NavbarHeading>
+              <Divider/>
+              <Button icon="zoom-in" onClick={() => this.diagram.zoomIn()}/>
+              <Button icon="zoom-out" onClick={() => this.diagram.zoomOut()}/>
+              <Button icon="zoom-to-fit" onClick={() => this.diagram.zoomToFit()}/>
+              <Divider/>
+              <Button icon="edit" onClick={() => this.handleEdit()}/>
+              <Button icon="floppy-disk" onClick={() => this.handleSave()}/>
+              <Divider/>
+              <Button icon="export" onClick={() => this.handleSerialize()}/>
+              <Button icon="envelope" onClick={() => this.handleSchema1()}/>
+              <Button icon="envelope" onClick={() => this.handleSchema2()}/>
+            </ButtonGroup>
+          </NavbarGroup>
+        </Navbar>
+
+        <DiagramCanvasWidget
+          diagram={this.diagram}
+          showGrid={this.state.isInEditMode}
+        />
       </Container>
     );
   }
 }
 
 const Container = styled.div`
-		background: black;
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		border-radius: 5px;
-		overflow: hidden;
-	`;
-
+  height: 100%;
+`;
 
 export const schemaExample1: ProjectSchema = {
   services: [
@@ -173,7 +184,8 @@ export const schemaExample1: ProjectSchema = {
         {
           x: 1030,
           y: 30
-        }, {
+        },
+        {
           x: 67,
           y: 30
         },
@@ -195,7 +207,6 @@ export const schemaExample1: ProjectSchema = {
     }
   ]
 };
-
 
 export const schemaExample2: ProjectSchema = {
   services: [
@@ -302,8 +313,7 @@ export const schemaExample2: ProjectSchema = {
       id: "42",
       from: "6",
       to: "2",
-      points: [
-      ]
+      points: []
     },
     {
       id: "43",
